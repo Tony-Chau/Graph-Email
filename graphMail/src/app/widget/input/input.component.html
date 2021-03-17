@@ -1,9 +1,11 @@
 
 <div *ngIf="isTextArea; else elseNormal" class="form-group">
-
+  <label for="{{id}}">{{ label }}</label>
+  <input type="textarea" class="form-control">
+  div.
 </div>
 
 <div #elseNormal class="form-group">
     <label for="{{id}}">{{label}}</label>
-    <input type="{{type}}" value="{{value}}" pattern="{{pattern}}" id="{{id}}" class="form-control">
+    <input class="form-control" type="{{type}}" value="{{value}}" pattern="{{pattern}}" id="{{id}}" min="{{min}}" max="{{max}}">
 </div>
