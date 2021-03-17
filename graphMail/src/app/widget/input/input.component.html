@@ -1,1 +1,9 @@
-<p>input works!</p>
+
+<div *ngIf="isTextArea; else elseNormal" class="form-group">
+
+</div>
+
+<div #elseNormal class="form-group">
+    <label for="{{id}}">{{label}}</label>
+    <input type="{{type}}" value="{{value}}" pattern="{{pattern}}" id="{{id}}" class="form-control">
+</div>

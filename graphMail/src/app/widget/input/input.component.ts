@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'inputform',
@@ -6,15 +6,19 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./input.component.css']
 })
 export class InputComponent implements OnInit {
-
+  @Input() label: string;
   @Input() type: string;
   @Input() value: any;
-  @Input() pattern: string;
+  @Input() pattern?: string;
+  @Input() id: string;
+
+  @Output() returnValue: any;
 
   isTextArea= false;
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.label, this.type, this.value, this.id);
     this.isTextArea = this.type == "textarea";
   }
 
