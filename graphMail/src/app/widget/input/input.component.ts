@@ -22,6 +22,7 @@ export class InputComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.label, this.type, this.value, this.id);
     this.isTextArea = this.type == "textarea";
+    console.log(this.isTextArea);
   }
 
   getValue(){

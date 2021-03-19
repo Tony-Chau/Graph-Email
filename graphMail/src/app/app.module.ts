@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { FormComponent } from './page/form/form.component';
 import { RecordsComponent } from './page/records/records.component';
 import { InputComponent } from './widget/input/input.component';
+import { SplitComponent } from './widget/split/split.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormComponent,
     RecordsComponent,
-    InputComponent
+    InputComponent,
+    SplitComponent
   ],
   imports: [
     BrowserModule,
