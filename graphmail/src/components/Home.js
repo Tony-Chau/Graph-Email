@@ -5,6 +5,7 @@ import Nav from './Nav';
 import Record from './Record';
 import Mail from './Mail';
 import Footer from './Footer';
+import Error from './Error';
 
 
 export default class Home extends Component {
@@ -18,6 +19,7 @@ export default class Home extends Component {
                             <Route exact path="/" component={HomePage}/>
                             <Route path="/record" component={Record}/>
                             <Route path="/mail" component={Mail}/>
+                            <Route path="*" component={Error}/>
                         </Switch>
                     </div>
                 </Router>
@@ -36,3 +38,4 @@ const HomePage = () => (
         </div>
     </React.Fragment>
 );
+

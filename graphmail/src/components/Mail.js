@@ -40,12 +40,6 @@ export default class Mail extends Component {
 
     updateChange(event, state) {
         switch (state){
-            case "SenderName":
-                this.setState({SenderName: event.target.value}); 
-                break;
-            case "SenderEmail": 
-                this.setState({SenderEmail: event.target.value});
-                break;
             case "Subject": 
                 this.setState({Subject: event.target.value});
                 break;
@@ -65,8 +59,6 @@ export default class Mail extends Component {
 
     resetData(){
         this.setState({
-            SenderName: "", 
-            SenderEmail: "",
             Subject: "",
             ReceiverName: "",
             ReceiverEmail: "",
@@ -77,7 +69,7 @@ export default class Mail extends Component {
     render() {
         const buttonStyle = {
             margin:'10px',
-            color: 'white'
+            color: '#fff'
         }
         return (
             <React.Fragment>
@@ -85,14 +77,9 @@ export default class Mail extends Component {
                 <p>Fill up the details and get ready to submit your email</p>
                 <form action="/mail" className="mailForm container" method="post" onSubmit={this.submitHandler}>
                     {/* Email Details */}
-                    <section className="row">
-                        <div className="col">
-                            <span className="title">Sender</span>
-                            <FormInput name="SenderName" type="text" labelFor="Sender's Name" label="Name" required="required" change={this.updateChange} value={this.state.SenderName} placeholder="Enter Name"/>
-                            <FormInput name="SenderEmail" type="email" labelFor="Sender's Email" label="Email" required="required" change={this.updateChange} value={this.state.SenderEmail} placeholder="Enter Email"/>
-                        </div>
-                        <div className="col">
-                            <span className="title">Receiver</span>
+                    <section className="">
+                        <div>
+                            <span className="title">Send To</span>
                             <FormInput name="ReceiverName" type="text" labelFor="Receiver's Name" label="Name" required="required" change={this.updateChange} value={this.state.ReceiverName} placeholder="Enter Name"/>
                             <FormInput name="ReceiverEmail" type="email" labelFor="Receiver's Email" label="Email" required="required" change={this.updateChange} value={this.state.ReceiverEmail} placeholder="Enter Email"/>
                         </div>
