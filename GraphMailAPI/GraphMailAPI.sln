@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphMailAPI", "GraphMailAPI.csproj", "{65899AE3-1CE0-4E73-B259-CE87719A167C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphMailAPI", "GraphMailAPI.csproj", "{5A7D1551-24AB-4CD1-905D-356772FCAA88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65899AE3-1CE0-4E73-B259-CE87719A167C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65899AE3-1CE0-4E73-B259-CE87719A167C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65899AE3-1CE0-4E73-B259-CE87719A167C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65899AE3-1CE0-4E73-B259-CE87719A167C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A7D1551-24AB-4CD1-905D-356772FCAA88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A7D1551-24AB-4CD1-905D-356772FCAA88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A7D1551-24AB-4CD1-905D-356772FCAA88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A7D1551-24AB-4CD1-905D-356772FCAA88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {AAC17383-F677-4D83-9417-0578A7349ED9}
+		SolutionGuid = {E0F011DF-AE9A-4853-8037-0EAE75C22B90}
 	EndGlobalSection
 EndGlobal

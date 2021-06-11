@@ -4,7 +4,6 @@ import axios from 'axios';
 export default class Record extends Component {
     constructor(props){
         super(props);
-
     }
     state = {
         isLoaded: false,
@@ -13,24 +12,27 @@ export default class Record extends Component {
     };
 
     componentDidMount(){
-        const apiTest = "https://db.ygoprodeck.com/api/v7/cardinfo.php";
+        var self = this;
+        const apiTest = "https://localhost:44337/api/Email";
         axios.get(apiTest)
             .then(function(res){
-                this.setState({
+                self.setState({
                     isLoaded: true,
-                    items : res.items
+                    items : res                
                 });
+                console.log(res);
             })
             .catch(function (error){
-                this.setState({
+                self.setState({
                     error: error,
                     isLoaded: true
                 });
-            })
-            .then(function(){
-                console.log(this.state.items);
             });
+        
+    }
 
+    pageRender(){
+        return <p>Yes</p>;
     }
 
 
@@ -41,13 +43,13 @@ export default class Record extends Component {
         if (isLoaded){
             page = <p>Please wait...</p>
         }
-        if (error){
-            page = <p>{error.message}</p> 
-        } 
-        if (Array.isArray(items)){
+        if (Array.isArray(items) || error){
             page = <p>There is no available records to show</p>
+        }else{
+            page = this.pageRender();
         }
-
+        
+        
         return (
             <React.Fragment>
                 <h1>Record Page</h1>
