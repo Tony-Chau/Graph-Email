@@ -62,7 +62,8 @@ export default class Mail extends Component {
             Subject: "",
             ReceiverName: "",
             ReceiverEmail: "",
-            Message: ""
+            Message: "",
+            MessageSent: false
         });
     }
 
