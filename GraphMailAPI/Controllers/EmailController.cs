@@ -8,6 +8,8 @@ using GraphMailAPI.Tools;
 using MySql.Data.MySqlClient;
 using System.Net.Mail;
 using NET = System.Net;
+
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GraphMailAPI.Controllers
@@ -18,11 +20,15 @@ namespace GraphMailAPI.Controllers
     {
         private string server = @"server=localhost;userid=root;password=;database=mail";
         private string hostEmail = "bestforest4@gmail.com";
-        private string hostPassword = "NOT SHOWING THIS GMAIL! PASSWORD";
+        private string hostPassword = "<PASSWORD>";
         private string smtpHost = "smtp.gmail.com";
         private int port = 587;
 
         // GET: api/<EmailController>
+        /// <summary>
+        /// Get a list of emails sent information
+        /// </summary>
+        /// <returns>List of email data</returns>
         [HttpGet]
         public IEnumerable<Email> Get()
         {
@@ -53,12 +59,44 @@ namespace GraphMailAPI.Controllers
                 con.Close();
                 return null;
             }
+        }
 
+        /// <summary>
+        /// Get a specific type of message
+        /// </summary>
+        /// <param name="id">The id number of the message</param>
+        /// <returns>The specific email type</returns>
+        [HttpGet("{id}")]
+        public Email Get(int id)
+        {
+            Email val = null;
+            using var con = new MySqlConnection(this.server);
+            con.Open();
+            string query = "SELECT * FROM mail WHERE id = @Id";
+            var cmd = new MySqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@Id", id);
+            using MySqlDataReader rdr = cmd.ExecuteReader();
 
+            while (rdr.Read())
+            {
+                val = new Email()
+                {
+                    id = rdr.GetInt64(0),
+                    name = rdr.GetString(1),
+                    email = rdr.GetString(2),
+                    subject = rdr.GetString(3),
+                    message = rdr.GetString(4)
+                };
+            }
+            return val;
         }
 
 
         // POST api/<EmailController>/SendMail
+        /// <summary>
+        /// POST: Send email and updates the database
+        /// </summary>
+        /// <param name="request">The body of the request</param>
         [HttpPost("SendMail")]
         public void Post([FromBody] Email request)
         {
@@ -77,7 +115,7 @@ namespace GraphMailAPI.Controllers
 
 
         /// <summary>
-        /// Sending email
+        /// Send email
         /// </summary>
         /// <param name="request">Email details</param>
         private void sendEmail(Email request)

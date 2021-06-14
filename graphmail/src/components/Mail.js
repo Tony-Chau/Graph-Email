@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import FormInput from './widgets/formInput';
 import $ from 'jquery';
-
-import './css/mail.css';
+import axios from 'axios';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 export default class Mail extends Component {
     constructor(props){
@@ -13,44 +13,54 @@ export default class Mail extends Component {
     }
 
     state = {
-        SenderName: "Tanj",
-        SenderEmail: "tan@po.com",
         Subject: "Yes",
-        ReceiverName: "Yan",
-        ReceiverEmail: "yan@io.com",
+        Name: "Yan",
+        Email: "tonychau923@gmail.com",
         Message: "This is some message I have no idea what to write about"
     };
 
     submitHandler(event){
+        var self = this;
+        var result;
         let submit = $("#sub");
         submit.disabled = true;
         // API stuff
         event.preventDefault();
         const target = event.target;
-        console.log(target);
 
-        try{
-
-        }catch{
-
-        }
-
+        axios.post('https://localhost:44337/api/Email/SendMail', {
+                Name: self.state.Name,
+                Email: self.state.Email,
+                Subject: self.state.Subject,
+                Message: self.state.Message
+        })
+        .then(function (response){
+            alert("Email Sent");
+            result = true;
+        })
+        .catch(function (error){
+            alert(error);
+            result = false;
+        })
+        
         submit.disabled = false;
+        return result;
     }
 
     updateChange(event, state) {
+        var val = event.target.value;
         switch (state){
             case "Subject": 
-                this.setState({Subject: event.target.value});
+                this.setState({Subject: val});
                 break;
-            case "ReceiverName":
-                this.setState({ReceiverName: event.target.value});
+            case "Name":
+                this.setState({Name: val});
                 break;
-            case "ReceiverEmail": 
-                this.setState({ReceiverEmail: event.target.value});
+            case "Email": 
+                this.setState({Email: val});
                 break;
             case "Message": 
-                this.setState({Message: event.target.value});
+                this.setState({Message: val});
                 break;
             default:
                 break;
@@ -81,8 +91,8 @@ export default class Mail extends Component {
                     <section className="">
                         <div>
                             <span className="title">Send To</span>
-                            <FormInput name="ReceiverName" type="text" labelFor="Receiver's Name" label="Name" required="required" change={this.updateChange} value={this.state.ReceiverName} placeholder="Enter Name"/>
-                            <FormInput name="ReceiverEmail" type="email" labelFor="Receiver's Email" label="Email" required="required" change={this.updateChange} value={this.state.ReceiverEmail} placeholder="Enter Email"/>
+                            <FormInput name="Name" type="text" labelFor="Receiver's Name" label="Name" required="required" change={this.updateChange} value={this.state.Name} placeholder="Enter Name"/>
+                            <FormInput name="Email" type="email" labelFor="Receiver's Email" label="Email" required="required" change={this.updateChange} value={this.state.Email} placeholder="Enter Email"/>
                         </div>
                     </section>
                     <br/>

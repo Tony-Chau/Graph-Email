@@ -39,7 +39,7 @@ export default class FormInput extends Component {
 
     render() {
 
-        let input = this.props.type == "textarea" ? this.textArea() : this.input();
+        let input = this.props.type === "textarea" ? this.textArea() : this.input();
         return (
             <div className="form-group">
                 <label htmlFor={this.props.labelFor}>{this.props.label}</label>
