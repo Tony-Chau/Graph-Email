@@ -33,7 +33,9 @@ export default class FormInput extends Component {
             pattern={this.props.pattern} 
             required={this.props.required}
             onChange={(e) => {this.props.change(e, this.props.name)}}
-            placeholder={this.props.placeholder}/>
+            placeholder={this.props.placeholder}
+            cols={this.props.cols}
+            rows={this.props.rows}/>
         );
     }
 

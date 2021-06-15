@@ -3,6 +3,7 @@ import FormInput from './widgets/formInput';
 import $ from 'jquery';
 import axios from 'axios';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import XLSX from 'xlsx'; 
 
 export default class Mail extends Component {
     constructor(props){
@@ -10,13 +11,19 @@ export default class Mail extends Component {
         this.updateChange = this.updateChange.bind(this);
         this.resetData = this.resetData.bind(this);
         this.submitHandler = this.submitHandler.bind(this);
+        this.renderHeading = this.renderHeading.bind(this);
+        this.handleUpload = this.handleUpload.bind(this);
     }
 
     state = {
         Subject: "Yes",
         Name: "Yan",
         Email: "tonychau923@gmail.com",
-        Message: "This is some message I have no idea what to write about"
+        Message: "This is some message I have no idea what to write about",
+        excelFilePath: "",
+        xHeadingKey: 0,
+        yHeadingKey: 0,
+        headings: []
     };
 
     submitHandler(event){
@@ -70,11 +77,40 @@ export default class Mail extends Component {
     resetData(){
         this.setState({
             Subject: "",
-            ReceiverName: "",
-            ReceiverEmail: "",
+            Name: "",
+            Email: "",
             Message: "",
             MessageSent: false
         });
+    }
+
+    renderHeading(type){
+        return (
+            <div className="col-sm-6 col-md-6">
+            <label htmlFor={type}>{type}-Heading</label>
+                <select className="form-select" id={type + "-heading"}>
+                    <option defaultValue key="0">{type}-Heading</option>
+                    {this.state.headings.map((item) =>{
+                        <option value=""></option>
+                    })}
+                </select>
+            </div>
+        );
+    }
+
+    handleUpload(event){
+        var reader = new FileReader();
+        reader.readAsArrayBuffer(event.target.files[0]);
+        reader.onload = function(e){
+            console.log(e);
+
+            // console.log(workbook);
+            // // for (i = 1; i < workbook.Strings.length + 1; i+= 1){
+            // //     headingsList[i] = workbook.Strings[i].h;
+            // // }
+            // console.log(headingsList);
+            // this.setState({headings: headingsList})
+        }
     }
 
     render() {
@@ -88,7 +124,7 @@ export default class Mail extends Component {
                 <p>Fill up the details and get ready to submit your email</p>
                 <form action="/mail" className="mailForm container" method="post" onSubmit={this.submitHandler}>
                     {/* Email Details */}
-                    <section className="">
+                    <section>
                         <div>
                             <span className="title">Send To</span>
                             <FormInput name="Name" type="text" labelFor="Receiver's Name" label="Name" required="required" change={this.updateChange} value={this.state.Name} placeholder="Enter Name"/>
@@ -98,14 +134,27 @@ export default class Mail extends Component {
                     <br/>
                     {/* Mail */}
                     <section>
-                        <span className="title">Mail Section</span>
+                        <span className="title">Mail</span>
                         <FormInput name="Subject" type="text" labelFor="Subject" label="Subject" required="optional" change={this.updateChange} value={this.state.Subject} placeholder="Enter Subject"/>
-                        <FormInput name="Message" type="textarea" labelFor="message" label="Message" required="optional" change={this.updateChange} value={this.state.Message} placeholder="Write a message..."/>
+                        <FormInput name="Message" type="textarea" labelFor="message" label="Message" required="optional" change={this.updateChange} value={this.state.Message} placeholder="Write a message..." rows="5"/>
                     </section>
 
                     {/* Graph */}
+                    <br/>
                     <section>
-                        
+                        <span className="title">Graph</span>
+                        <div className="form-group">
+                            <label htmlFor="file">Upload Graph</label>
+                            <input className="form-control" type="file" id="file" name="excelFile" onChange={this.handleUpload} accept=".xlsx" value={this.state.excelFilePath}/>
+                            <span>This only works for .xlsx files</span>
+                        </div>
+                        <div className="form-group row">
+                            {this.renderHeading("x")}
+                            {this.renderHeading("y")}
+                        </div>
+                        <div className="graph">
+                            {/* Graph Part image rendering */}
+                        </div>
                     </section>
                     
                     <br/>
