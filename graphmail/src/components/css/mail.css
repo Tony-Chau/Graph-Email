@@ -6,3 +6,8 @@
 .form-group {
   margin-bottom: 5px;
 }
+
+.mail-button-set button {
+  margin: "10px";
+  color: "#fff";
+}

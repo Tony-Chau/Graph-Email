@@ -20,7 +20,7 @@ namespace GraphMailAPI.Controllers
     {
         private string server = @"server=localhost;userid=root;password=;database=mail";
         private string hostEmail = "bestforest4@gmail.com";
-        private string hostPassword = "<PASSWORD>";
+        private string hostPassword = "BrooklynRage";
         private string smtpHost = "smtp.gmail.com";
         private int port = 587;
 

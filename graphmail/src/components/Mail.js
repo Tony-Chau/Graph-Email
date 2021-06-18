@@ -4,6 +4,9 @@ import $ from 'jquery';
 import axios from 'axios';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import XLSX from 'xlsx'; 
+import excelToJson from 'convert-excel-to-json';
+import fs from 'fs';
+import parser from 'simple-excel-to-json';
 
 export default class Mail extends Component {
     constructor(props){
@@ -20,7 +23,7 @@ export default class Mail extends Component {
         Name: "Yan",
         Email: "tonychau923@gmail.com",
         Message: "This is some message I have no idea what to write about",
-        excelFilePath: "",
+        excel: null,
         xHeadingKey: 0,
         yHeadingKey: 0,
         headings: []
@@ -99,25 +102,19 @@ export default class Mail extends Component {
     }
 
     handleUpload(event){
-        var reader = new FileReader();
-        reader.readAsArrayBuffer(event.target.files[0]);
-        reader.onload = function(e){
-            console.log(e);
-
-            // console.log(workbook);
-            // // for (i = 1; i < workbook.Strings.length + 1; i+= 1){
-            // //     headingsList[i] = workbook.Strings[i].h;
-            // // }
-            // console.log(headingsList);
-            // this.setState({headings: headingsList})
-        }
+        const file = event.target.files[0];
+        const promise = new Promise((resolve, reject) => { 
+            const fileReader = new FileReader();
+            fileReader.readAsArrayBuffer(file);
+            fileReader.onload((e) => {
+                const bufferArray = e.target.result;
+                console.log(XLSX.readAsArrayBuffer(bufferArray, {type: 'buffer'}));
+            });
+        });
+        
     }
 
     render() {
-        const buttonStyle = {
-            margin:'10px',
-            color: '#fff'
-        }
         return (
             <React.Fragment>
                 <h3>Mail Form</h3>
@@ -145,8 +142,9 @@ export default class Mail extends Component {
                         <span className="title">Graph</span>
                         <div className="form-group">
                             <label htmlFor="file">Upload Graph</label>
-                            <input className="form-control" type="file" id="file" name="excelFile" onChange={this.handleUpload} accept=".xlsx" value={this.state.excelFilePath}/>
+                            <input className="form-control" type="file" id="file" name="excelFile" onChange={this.handleUpload} accept=".xlsx, .xls" value={this.state.excelFilePath}/>
                             <span>This only works for .xlsx files</span>
+                            {/* http://www.principlesofeconometrics.com/excel.htm */}
                         </div>
                         <div className="form-group row">
                             {this.renderHeading("x")}
@@ -158,9 +156,9 @@ export default class Mail extends Component {
                     </section>
                     
                     <br/>
-                    <section className="d-flex justify-content-between">
-                        <button className="btn btn-warning" onClick={this.resetData} style={buttonStyle}>Reset</button>
-                        <button type="submit" className="btn btn-primary" id="sub" style={buttonStyle}>Submit</button>
+                    <section className="d-flex justify-content-between mail-button-set">
+                        <button className="btn btn-warning" onClick={this.resetData}>Reset</button>
+                        <button type="submit" className="btn btn-primary" id="sub">Submit</button>
                     </section>
 
 

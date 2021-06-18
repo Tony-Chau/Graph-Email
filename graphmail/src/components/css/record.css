@@ -1,0 +1,15 @@
+.image-icon,
+thead tr {
+  text-align: center;
+}
+
+.image-icon i {
+  color: rgb(188, 188, 255);
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.image-icon i:hover,
+.image-con i:focus {
+  color: rgb(23, 23, 221);
+}

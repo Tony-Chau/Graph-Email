@@ -5,6 +5,7 @@ import  './components/css/footer.css';
 import  './components/css/mail.css';
 import  './components/css/message.css';
 import  './components/css/nav.css';
+import './components/css/record.css';
 
 
 function App() {
