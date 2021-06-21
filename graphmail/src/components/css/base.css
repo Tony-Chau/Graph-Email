@@ -1,0 +1,9 @@
+/* Navigation */
+@import "nav.css";
+
+/* Body */
+@import "record.css";
+@import "mail.css";
+
+/* Footer */
+@import "footer.css";

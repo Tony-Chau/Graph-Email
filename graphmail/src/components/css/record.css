@@ -13,3 +13,7 @@ thead tr {
 .image-con i:focus {
   color: rgb(23, 23, 221);
 }
+
+table tbody tr th {
+  font-weight: normal;
+}

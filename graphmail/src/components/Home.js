@@ -24,7 +24,6 @@ export default class Home extends Component {
                         </Switch>
                     </div>
                 </Router>
-                <Footer/>
             </React.Fragment>
         )
     }
