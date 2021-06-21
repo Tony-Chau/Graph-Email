@@ -103,15 +103,17 @@ export default class Mail extends Component {
 
     handleUpload(event){
         const file = event.target.files[0];
-        const promise = new Promise((resolve, reject) => { 
+        const promise = new Promise((resolve, reject) =>{
             const fileReader = new FileReader();
             fileReader.readAsArrayBuffer(file);
-            fileReader.onload((e) => {
-                const bufferArray = e.target.result;
-                console.log(XLSX.readAsArrayBuffer(bufferArray, {type: 'buffer'}));
-            });
+            fileReader.onload = (e) =>{
+                const workbook = XLSX.read(e.target.result, {type: 'buffer'});
+                const sheets = workbook.Sheets[workbook.SheetNames[0]];
+                console.log(XLSX.utils.sheet_to_json(sheets), {
+                    raw: true
+                });
+            };
         });
-        
     }
 
     render() {
@@ -129,7 +131,7 @@ export default class Mail extends Component {
                         </div>
                     </section>
                     <br/>
-                    {/* Mail */}
+                    {/* Mail */} 
                     <section>
                         <span className="title">Mail</span>
                         <FormInput name="Subject" type="text" labelFor="Subject" label="Subject" required="optional" change={this.updateChange} value={this.state.Subject} placeholder="Enter Subject"/>
