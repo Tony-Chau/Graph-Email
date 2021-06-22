@@ -5,7 +5,6 @@ import {BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Nav from './Nav';
 import Record from './Record';
 import Mail from './Mail';
-import Footer from './Footer';
 import Error from './Error';
 
 

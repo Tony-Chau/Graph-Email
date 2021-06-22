@@ -9,5 +9,5 @@ ul li a {
 
 ul li a:hover,
 ul li a:focus {
-  color: blue;
+  color: grey;
 }

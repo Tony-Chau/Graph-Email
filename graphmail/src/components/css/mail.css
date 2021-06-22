@@ -11,3 +11,13 @@
   margin: "10px";
   color: "#fff";
 }
+
+.btn {
+  color: white;
+}
+
+.graph {
+  height: inherit;
+  padding: 10px;
+  text-align: center;
+}

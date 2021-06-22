@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import FormInput from './widgets/formInput';
+import Graph from './widgets/graph';
 import $ from 'jquery';
 import axios from 'axios';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-import XLSX from 'xlsx'; 
-import excelToJson from 'convert-excel-to-json';
-import fs from 'fs';
-import parser from 'simple-excel-to-json';
+import XLSX from 'xlsx';
+
 
 export default class Mail extends Component {
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.updateChange = this.updateChange.bind(this);
         this.resetData = this.resetData.bind(this);
         this.submitHandler = this.submitHandler.bind(this);
@@ -23,10 +21,12 @@ export default class Mail extends Component {
         Name: "Yan",
         Email: "tonychau923@gmail.com",
         Message: "This is some message I have no idea what to write about",
-        excel: null,
-        xHeadingKey: 0,
-        yHeadingKey: 0,
-        headings: []
+        excelJson: null,
+        xHeadingKey: "0",
+        yHeadingKey: "0",
+        headings: [],
+        Title: "",
+        image: null
     };
 
     submitHandler(event){
@@ -36,7 +36,6 @@ export default class Mail extends Component {
         submit.disabled = true;
         // API stuff
         event.preventDefault();
-        const target = event.target;
 
         axios.post('https://localhost:44337/api/Email/SendMail', {
                 Name: self.state.Name,
@@ -72,9 +71,19 @@ export default class Mail extends Component {
             case "Message": 
                 this.setState({Message: val});
                 break;
-            default:
+            case "Title":
+                this.setState({Title: val});
                 break;
-        }
+            case "x-Head":
+                this.setState({xHeadingKey: val});
+                break;
+            case "y-Head":
+                this.setState({yHeadingKey: val});
+                break;
+            default: 
+                console.log("nothing was updated");
+                break;
+        }       
     }
 
     resetData(){
@@ -83,37 +92,63 @@ export default class Mail extends Component {
             Name: "",
             Email: "",
             Message: "",
-            MessageSent: false
+            MessageSent: false,
+            excelJson: null,
+            Headings: [],
+            xHeadingKey: "0",
+            yHeadingKey: "0",
+            Title: "",
+            image: null
         });
     }
 
     renderHeading(type){
         return (
             <div className="col-sm-6 col-md-6">
-            <label htmlFor={type}>{type}-Heading</label>
-                <select className="form-select" id={type + "-heading"}>
-                    <option defaultValue key="0">{type}-Heading</option>
-                    {this.state.headings.map((item) =>{
-                        <option value=""></option>
-                    })}
-                </select>
+                <label htmlFor={type}>{type.toUpperCase()}-Heading</label>
+                    <select className="form-select" id={type + "-heading"} defaultValue="0" onChange={(e) =>{this.updateChange(e, `${type}-Head`)}}>
+                        <option defaultValue value={0} key="0" disabled>{type.toUpperCase()}-Heading</option>
+                        {this.state.headings.map((item) =>
+                            <option key={item.id} value={item.id}>{item.name}</option>
+                        )}
+                    </select>
             </div>
         );
     }
 
     handleUpload(event){
+        if (event.target.files[0] === undefined){
+            return;
+        }
+        const self = this;
         const file = event.target.files[0];
-        const promise = new Promise((resolve, reject) =>{
-            const fileReader = new FileReader();
-            fileReader.readAsArrayBuffer(file);
-            fileReader.onload = (e) =>{
-                const workbook = XLSX.read(e.target.result, {type: 'buffer'});
-                const sheets = workbook.Sheets[workbook.SheetNames[0]];
-                console.log(XLSX.utils.sheet_to_json(sheets), {
-                    raw: true
-                });
-            };
-        });
+        const fileReader = new FileReader();
+        fileReader.readAsArrayBuffer(file);
+        fileReader.onload = (e) =>{
+            const workbook = XLSX.read(e.target.result, {type: 'buffer'});
+            // We only care about the first sheet
+            const sheets = workbook.Sheets[workbook.SheetNames[0]];
+            // Converting Excel Data to Json
+            const json = XLSX.utils.sheet_to_json((sheets), {
+                raw: true
+            });
+            // Adding Json keys to headings
+            var keyIndex = 1;
+            var headings = [];
+            for(var key in json[0]){
+                headings[keyIndex - 1] = {
+                    id: keyIndex,
+                    name: key
+                };
+                keyIndex += 1;
+            }
+            self.setState({excelJson: json,
+                            headings: headings,
+                            xHeadingKey: "0",
+                            yHeadingKey: "0"
+                        });
+
+        };
     }
 
     render() {
@@ -148,13 +183,24 @@ export default class Mail extends Component {
                             <span>This only works for .xlsx files</span>
                             {/* http://www.principlesofeconometrics.com/excel.htm */}
                         </div>
-                        <div className="form-group row">
-                            {this.renderHeading("x")}
-                            {this.renderHeading("y")}
-                        </div>
-                        <div className="graph">
-                            {/* Graph Part image rendering */}
-                        </div>
+                        <br/><br/>
+                        {this.state.excelJson == null ? "" : 
+                            <React.Fragment>
+                                <div className="form-group row">
+                                    <FormInput name="Title" type="text" labelFor="Title" label="Graph Title" required="optional" change={this.updateChange} value={this.state.Title} placeholder="Add Graph Title (optional)"/>
+                                    {this.renderHeading("x")}
+                                    {this.renderHeading("y")}
+                                </div>
+                                <div className="graph">
+                                    {/* Graph Part image rendering */}
+                                    { this.state.xHeadingKey !== "0" && this.state.yHeadingKey !== "0" ? 
+                                        <Graph excelJson={this.state.excelJson} xHeadingKey={this.state.xHeadingKey} yHeadingKey={this.state.yHeadingKey} headings={this.state.headings}/> 
+                                        : 
+                                        <p>Please select both x and y headings to generate a graph</p>}
+                                </div>
+                            </React.Fragment>
+                        }
+
                     </section>
                     
                     <br/>

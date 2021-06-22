@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios';
 
 export default class Record extends Component {
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         this.emailChange = this.emailChange.bind(this);
         this.pageRender = this.pageRender.bind(this);
         this.handleIconClick = this.handleIconClick.bind(this);
@@ -59,30 +59,30 @@ export default class Record extends Component {
                 </div>
                 {this.state.searchResult.length <= 0 ? <p>The result is empty</p> :     
                 <div>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th className="col">Name</th>
-                            <th className="col">Email</th>
-                            <th className="col">Subject</th>
-                            <th className="col">Message</th>
-                            <th className="col">View Graph</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.searchResult.map((item) => 
-                            <tr key={item.id}>
-                                <th scope="row">{item.name}</th>
-                                <th>{item.email}</th>
-                                <th>{item.subject}</th>
-                                <th>{item.message}</th>
-                                <th className="image-icon"><i data-id={item.id} onClick={this.handleIconClick} class="material-icons">&#xe3b6;</i></th>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th className="col">Name</th>
+                                <th className="col">Email</th>
+                                <th className="col">Subject</th>
+                                <th className="col">Message</th>
+                                <th className="col">View Graph</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-            }
+                        </thead>
+                        <tbody>
+                            {this.state.searchResult.map((item) => 
+                                <tr key={item.id}>
+                                    <th scope="row">{item.name}</th>
+                                    <th>{item.email}</th>
+                                    <th>{item.subject}</th>
+                                    <th>{item.message}</th>
+                                    <th className="image-icon"><i data-id={item.id} onClick={this.handleIconClick} class="material-icons">&#xe3b6;</i></th>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+                }
 
             </React.Fragment>
         )
