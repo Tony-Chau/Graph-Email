@@ -210,7 +210,6 @@ export default class Mail extends Component {
                                         <div className="Graph">
                                             <Graph excelJson={this.state.excelJson} xHeadingKey={this.state.xHeadingKey} yHeadingKey={this.state.yHeadingKey} headings={this.state.headings} title={this.state.Title} type={this.state.Graphtype} height="500px" width="100%"/>
                                         </div>
-                                        
                                         : 
                                         <p>Please select both x and y headings to generate a graph</p>}
                                 </div>
