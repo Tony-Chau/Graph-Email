@@ -4,6 +4,7 @@ import Graph from './widgets/graph';
 import $ from 'jquery';
 import axios from 'axios';
 import XLSX from 'xlsx';
+// import {Canvas2Image} from 'Canvas2Image';
 
 
 export default class Mail extends Component {
@@ -26,7 +27,8 @@ export default class Mail extends Component {
         yHeadingKey: "0",
         headings: [],
         Title: "",
-        image: null
+        image: null,
+        Graphtype: 'bar'
     };
 
     submitHandler(event){
@@ -80,6 +82,9 @@ export default class Mail extends Component {
             case "y-Head":
                 this.setState({yHeadingKey: val});
                 break;
+            case "Graphtype":
+                this.setState({Graphtype: val});
+                break;
             default: 
                 console.log("nothing was updated");
                 break;
@@ -98,7 +103,8 @@ export default class Mail extends Component {
             xHeadingKey: "0",
             yHeadingKey: "0",
             Title: "",
-            image: null
+            image: null,
+            Graphtype: 'bar'
         });
     }
 
@@ -180,7 +186,7 @@ export default class Mail extends Component {
                         <div className="form-group">
                             <label htmlFor="file">Upload Graph</label>
                             <input className="form-control" type="file" id="file" name="excelFile" onChange={this.handleUpload} accept=".xlsx, .xls" value={this.state.excelFilePath}/>
-                            <span>This only works for .xlsx files</span>
+                            <span>This only works for .xlsx or .xls file</span>
                             {/* http://www.principlesofeconometrics.com/excel.htm */}
                         </div>
                         <br/><br/>
@@ -188,13 +194,23 @@ export default class Mail extends Component {
                             <React.Fragment>
                                 <div className="form-group row">
                                     <FormInput name="Title" type="text" labelFor="Title" label="Graph Title" required="optional" change={this.updateChange} value={this.state.Title} placeholder="Add Graph Title (optional)"/>
+                                    <div className="form-group">
+                                        <label htmlFor="Gtype">Graph Type</label>
+                                        <select className="form-control" id="Gtype" value={this.state.Graphtype} onChange={(e) =>{ this.updateChange(e, "Graphtype")}}>
+                                            <option defaultValue value="bar">Bar</option>
+                                            <option value="line">Line</option>
+                                        </select>
+                                    </div>
                                     {this.renderHeading("x")}
                                     {this.renderHeading("y")}
                                 </div>
-                                <div className="graph">
+                                <div>
                                     {/* Graph Part image rendering */}
                                     { this.state.xHeadingKey !== "0" && this.state.yHeadingKey !== "0" ? 
-                                        <Graph excelJson={this.state.excelJson} xHeadingKey={this.state.xHeadingKey} yHeadingKey={this.state.yHeadingKey} headings={this.state.headings}/> 
+                                        <div className="Graph">
+                                            <Graph excelJson={this.state.excelJson} xHeadingKey={this.state.xHeadingKey} yHeadingKey={this.state.yHeadingKey} headings={this.state.headings} title={this.state.Title} type={this.state.Graphtype} height="500px" width="100%"/>
+                                        </div>
+                                        
                                         : 
                                         <p>Please select both x and y headings to generate a graph</p>}
                                 </div>
