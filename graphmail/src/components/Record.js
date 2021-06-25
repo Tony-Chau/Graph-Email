@@ -76,7 +76,7 @@ export default class Record extends Component {
                                     <th>{item.email}</th>
                                     <th>{item.subject}</th>
                                     <th>{item.message}</th>
-                                    <th className="image-icon"><i data-id={item.id} onClick={this.handleIconClick} class="material-icons">&#xe3b6;</i></th>
+                                    <th className="image-icon"><i data-id={item.id} onClick={this.handleIconClick} className="material-icons">&#xe3b6;</i></th>
                                 </tr>
                             )}
                         </tbody>

@@ -17,7 +17,7 @@ export default class FormInput extends Component {
             value={this.props.value} 
             name={this.props.name} 
             pattern={this.props.pattern} 
-            required={this.props.required}
+            {...this.props.required !== 'optional' ? 'required' : ''}
             onChange={(e) => {this.props.change(e, this.props.name)}}
             placeholder={this.props.placeholder}/>
         );
@@ -31,7 +31,7 @@ export default class FormInput extends Component {
             value={this.props.value} 
             name={this.props.name} 
             pattern={this.props.pattern} 
-            required={this.props.required}
+            {...this.props.required !== 'optional' ? 'required' : ''}
             onChange={(e) => {this.props.change(e, this.props.name)}}
             placeholder={this.props.placeholder}
             cols={this.props.cols}
@@ -40,7 +40,6 @@ export default class FormInput extends Component {
     }
 
     render() {
-
         let input = this.props.type === "textarea" ? this.textArea() : this.input();
         return (
             <div className="form-group">

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import FormInput from './widgets/formInput';
 import Graph from './widgets/graph';
-import $ from 'jquery';
 import axios from 'axios';
 import XLSX from 'xlsx';
+// import  {ExportManager, ExportConfig} from 'fusionexport-node-client';
 // import {Canvas2Image} from 'Canvas2Image';
 
 
@@ -33,53 +33,41 @@ export default class Mail extends Component {
 
     submitHandler(event){
         var self = this;
-        var result;
-        let submit = $("#sub");
-        submit.disabled = true;
+        var sub = document.getElementById('sub');
+        sub.disabled = !sub.disabled;
+
+        const saveToArchive = async (chartId) =>{
+            const chartInstance = window.Apex._chartInstances.find(chart => chart.id === chartId);
+            const base64 = await chartInstance.chart.dataURI();
+            return base64;
+        }
+        console.log(saveToArchive);
         // API stuff
         event.preventDefault();
+        // var dataURL = chart.dataURI().then((uri) => {
+        //     console.log(uri);
+        // });
 
-        // axios.post('https://localhost:44337/api/Email/SendMail', {
+        // axios({
+        //     method: 'POST',
+        //     url: 'https://localhost:44337/api/Email/SendMail',
+        //     data:{
         //         Name: self.state.Name,
         //         Email: self.state.Email,
         //         Subject: self.state.Subject,
         //         Message: self.state.Message
-        //     }, headers:{
+        //     },
+        //     header: {
         //         'Access-Control-Allow_origin': "*",
         //         'Content-type': 'application/json'
-        //     })
-        // .then(function (response){
+        //     }
+        // }).then(function(resp){
         //     alert("Email Sent");
-        //     result = true;
-        // })
-        // .catch(function (error){
-        //     alert(error);
-        //     result = false;
-        // })
-
-        axios({
-            method: 'POST',
-            url: 'https://localhost:44337/api/Email/SendMail',
-            data:{
-                Name: self.state.Name,
-                Email: self.state.Email,
-                Subject: self.state.Subject,
-                Message: self.state.Message
-            },
-            header: {
-                'Access-Control-Allow_origin': "*",
-                'Content-type': 'application/json'
-            }
-        }).then(function(resp){
-            alert("Email Sent");
-            result = true;
-        }).catch(function(err){
-            alert(err);
-            result = false;
-        });
-        
-        submit.disabled = false;
-        return result;
+        //     sub.disabled = !sub.disabled;
+        //     window.location.reload();
+        // }).catch(function(err){
+        //     alert(err);
+        // });
     }
 
     updateChange(event, state) {

@@ -9,6 +9,8 @@ using MySql.Data.MySqlClient;
 using System.Net.Mail;
 using NET = System.Net;
 using Microsoft.AspNetCore.Cors;
+using System.IO;
+using static System.Net.Mime.MediaTypeNames;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -105,7 +107,6 @@ namespace GraphMailAPI.Controllers
         public void Post([FromBody] Email request)
         {
             using var con = new MySqlConnection(this.server);
-
             try
             {
                 sendEmail(request);
@@ -124,6 +125,7 @@ namespace GraphMailAPI.Controllers
         /// <param name="request">Email details</param>
         private void sendEmail(Email request)
         {
+            //Get Image
             try
             {
                 MailMessage mailMessage = new MailMessage(this.hostEmail, request.email, request.subject, request.message);
@@ -163,5 +165,17 @@ namespace GraphMailAPI.Controllers
             cmd.ExecuteNonQuery();
             con.Close();
         }
+
+        //private Image convertImage(string base64)
+        //{
+        //    byte[] bytes = Convert.FromBase64String(base64);
+
+        //    Image image;
+        //    using (MemoryStream ms = new MemoryStream(bytes))
+        //    {
+        //        image = Image.FromStream(ms);
+        //    }
+        //    return image;
+        //}
     }
 }

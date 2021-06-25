@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Chart from 'react-apexcharts';
-// const {ExportManager, ExportConfig} = require('fusionexport-node-client');
+
 
 export default class Graph extends Component {
     constructor(props){
@@ -58,7 +58,10 @@ export default class Graph extends Component {
                 chart:{
                     height: this.props.height,
                     width: this.props.width,
-                    type: this.props.type
+                    type: this.props.type, 
+                    toolbar:{
+                        show: false
+                    }
                 },
                 xaxis:{
                     categories: y_data
@@ -103,9 +106,10 @@ export default class Graph extends Component {
                     },
                 },
                 chart:{
-                    height: prevstate.options.chart.height,
-                    width: prevstate.options.chart.width,
-                    type: prevstate.options.chart.type
+                    type: prevstate.options.chart.type, 
+                    toolbar:{
+                        show: false
+                    }
                 },
                 xaxis:{
                     categories: y_data
@@ -129,9 +133,10 @@ export default class Graph extends Component {
                     },
                 },
                 chart:{
-                    height: prevstate.options.chart.height,
-                    width: prevstate.options.chart.width,
-                    type: this.props.type
+                    type: this.props.type, 
+                    toolbar:{
+                        show: false
+                    }
                 },
                 xaxis:{
                     categories: prevstate.options.xaxis.categories
@@ -162,8 +167,6 @@ export default class Graph extends Component {
                     },
                 },
                 chart:{
-                    height: prevstate.options.chart.height,
-                    width: prevstate.options.chart.width,
                     type: prevstate.options.chart.type
                 },
                 xaxis:{
