@@ -41,6 +41,20 @@ export default class Graph extends Component {
             }
         ];
         var options = {
+            title: {
+                text: this.props.title,
+                align: 'left',
+                margin: 10,
+                offsetX: 0,
+                offsetY: 0,
+                floating: false,
+                style: {
+                  fontSize:  '14px',
+                  fontWeight:  'bold',
+                  fontFamily:  'Arial',
+                  color:  '#263238'
+                },
+            },
                 chart:{
                     height: this.props.height,
                     width: this.props.width,
@@ -50,7 +64,7 @@ export default class Graph extends Component {
                     categories: y_data
                 }
         }
-        this.setState({series: data, options});
+        this.setState({series: data, options: options});
     }
 
     componentDidUpdate(prevprops, prevstate){
@@ -76,27 +90,54 @@ export default class Graph extends Component {
                     data: x_data
                 }
             ];
-            var options = prevstate.options;
-            options.xaxis.categories = y_data;
-            // var options = {
-            //     chart:{
-            //         height: this.props.height,
-            //         width: this.props.width,
-            //         type: this.props.type
-            //     },
-            //     xaxis:{
-            //         categories: y_data
-            //     }
-            // }
-            this.setState({options, series: data});
+            var options = {
+                title: {
+                    text: this.props.title,
+                    align: 'center',
+                    margin: 10,
+                    style: {
+                      fontSize:  '18px',
+                      fontWeight:  'bold',
+                      fontFamily:  'Arial',
+                      color:  '#000'
+                    },
+                },
+                chart:{
+                    height: prevstate.options.chart.height,
+                    width: prevstate.options.chart.width,
+                    type: prevstate.options.chart.type
+                },
+                xaxis:{
+                    categories: y_data
+                }
+            };
+            this.setState({options : options, series: data});
         }
 
-        if (this.props.type !== prevprops.type){
-            console.log(prevstate, prevprops);
-            var options = prevstate.option;
-            options.chart.type = this.props.type;
 
-            this.setState({type: this.props.type, options});
+        if (this.props.type !== prevprops.type){
+            var options = {
+                title: {
+                    text: this.props.title,
+                    align: 'center',
+                    margin: 10,
+                    style: {
+                      fontSize:  '18px',
+                      fontWeight:  'bold',
+                      fontFamily:  'Arial',
+                      color:  '#000'
+                    },
+                },
+                chart:{
+                    height: prevstate.options.chart.height,
+                    width: prevstate.options.chart.width,
+                    type: this.props.type
+                },
+                xaxis:{
+                    categories: prevstate.options.xaxis.categories
+                }
+            }
+            this.setState({type: this.props.type, options : options});
         }
 
         if (this.props.height !== prevprops.height){
@@ -106,22 +147,38 @@ export default class Graph extends Component {
         if(this.props.width !== prevprops.width){
             this.setState({width: this.props.width});
         }
+
+        if (this.props.title !== prevprops.title){
+            var options = {
+                title: {
+                    text: this.props.title,
+                    align: 'center',
+                    margin: 10,
+                    style: {
+                      fontSize:  '18px',
+                      fontWeight:  'bold',
+                      fontFamily:  'Arial',
+                      color:  '#000'
+                    },
+                },
+                chart:{
+                    height: prevstate.options.chart.height,
+                    width: prevstate.options.chart.width,
+                    type: prevstate.options.chart.type
+                },
+                xaxis:{
+                    categories: prevstate.options.xaxis.categories
+                }
+            }
+            this.setState({options: options});
+        }
     }
 
 
 
     render(){
-        const titlestyle = {
-            fontSize: "18px",
-            fontWeight: "bold",
-            fontFamily: "Arial",
-            color: "#000",
-            margin: 20,
-            align: "center"
-        };
         return (
             <div className="text-center">
-                <p style={titlestyle}>{this.props.title}</p>
                 <Chart options = {this.state.options}
                 series = {this.state.series}
                 height = {this.state.height}

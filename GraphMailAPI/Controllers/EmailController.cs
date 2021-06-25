@@ -8,6 +8,7 @@ using GraphMailAPI.Tools;
 using MySql.Data.MySqlClient;
 using System.Net.Mail;
 using NET = System.Net;
+using Microsoft.AspNetCore.Cors;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,7 +21,7 @@ namespace GraphMailAPI.Controllers
     {
         private string server = @"server=localhost;userid=root;password=;database=mail";
         private string hostEmail = "bestforest4@gmail.com";
-        private string hostPassword = "BrooklynRage";
+        private string hostPassword = "<Password>";
         private string smtpHost = "smtp.gmail.com";
         private int port = 587;
 
@@ -30,6 +31,7 @@ namespace GraphMailAPI.Controllers
         /// </summary>
         /// <returns>List of email data</returns>
         [HttpGet]
+        [EnableCors("MyPolicy")]
         public IEnumerable<Email> Get()
         {
             List<Email> emailList = new List<Email>();
@@ -67,6 +69,7 @@ namespace GraphMailAPI.Controllers
         /// <param name="id">The id number of the message</param>
         /// <returns>The specific email type</returns>
         [HttpGet("{id}")]
+        [EnableCors("MyPolicy")]
         public Email Get(int id)
         {
             Email val = null;
@@ -98,6 +101,7 @@ namespace GraphMailAPI.Controllers
         /// </summary>
         /// <param name="request">The body of the request</param>
         [HttpPost("SendMail")]
+        [EnableCors("MyPolicy")]
         public void Post([FromBody] Email request)
         {
             using var con = new MySqlConnection(this.server);

@@ -39,20 +39,44 @@ export default class Mail extends Component {
         // API stuff
         event.preventDefault();
 
-        axios.post('https://localhost:44337/api/Email/SendMail', {
+        // axios.post('https://localhost:44337/api/Email/SendMail', {
+        //         Name: self.state.Name,
+        //         Email: self.state.Email,
+        //         Subject: self.state.Subject,
+        //         Message: self.state.Message
+        //     }, headers:{
+        //         'Access-Control-Allow_origin': "*",
+        //         'Content-type': 'application/json'
+        //     })
+        // .then(function (response){
+        //     alert("Email Sent");
+        //     result = true;
+        // })
+        // .catch(function (error){
+        //     alert(error);
+        //     result = false;
+        // })
+
+        axios({
+            method: 'POST',
+            url: 'https://localhost:44337/api/Email/SendMail',
+            data:{
                 Name: self.state.Name,
                 Email: self.state.Email,
                 Subject: self.state.Subject,
                 Message: self.state.Message
-        })
-        .then(function (response){
+            },
+            header: {
+                'Access-Control-Allow_origin': "*",
+                'Content-type': 'application/json'
+            }
+        }).then(function(resp){
             alert("Email Sent");
             result = true;
-        })
-        .catch(function (error){
-            alert(error);
+        }).catch(function(err){
+            alert(err);
             result = false;
-        })
+        });
         
         submit.disabled = false;
         return result;

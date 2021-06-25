@@ -20,6 +20,7 @@ namespace GraphMailAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            
         }
 
         public IConfiguration Configuration { get; }
@@ -27,11 +28,20 @@ namespace GraphMailAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
+            //services.AddCors(options =>
+            //{
+            //    //options.AddPolicy("AllowSpecificOrigin",
+            //    //    builder => builder.WithOrigins("http://localhost:3000"));
+            //});
+            services.AddCors(option => option.AddPolicy("MyPolicy", builder =>
             {
-                options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:3000"));
-            });
+                builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithOrigins("http://localhost:3000")
+                        .SetIsOriginAllowed(origin => true)
+                        .AllowCredentials();
+            }));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -54,6 +64,8 @@ namespace GraphMailAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors("MyPolicy");
 
             app.UseEndpoints(endpoints =>
             {
