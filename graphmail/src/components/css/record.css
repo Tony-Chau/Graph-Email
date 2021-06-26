@@ -1,3 +1,40 @@
+.modal{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding: 20px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, .9);
+}
+
+.modalContent {
+  margin: auto;
+  display: block;
+  animation-name: zoom;
+  animation-duration: .75s;
+}
+
+.close{
+  position: fixed;
+  top: 5px;
+  right: 30px;
+  color: #f3f3f3;
+  font-size: 30pt;
+  font-weight: bold;
+  transition: .3s;
+}
+
+.close:hover, 
+.close:focus{
+  color: rgb(175, 174, 174);
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .image-icon,
 thead tr {
   text-align: center;
@@ -16,4 +53,9 @@ thead tr {
 
 table tbody tr th {
   font-weight: normal;
+}
+
+@keyframes zoom{
+  from{transform: scale(0)}
+  to{transform: scale(1)}
 }
