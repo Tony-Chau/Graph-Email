@@ -17,21 +17,25 @@ export default class Record extends Component {
 
     componentDidMount(){
         var self = this;
-        const apiTest = "https://localhost:44337/api/Email";
-        axios.get(apiTest)
-            .then(function(res){
-                self.setState({
-                    isLoaded: true,
-                    items : res.data,
-                    searchResult: res.data                
-                });
-            })
-            .catch(function (error){
-                self.setState({
-                    error: error,
-                    isLoaded: true
-                });
-            });   
+        axios({
+            method: "GET",
+            url: "https://localhost:44337/api/Email", 
+            header: {
+                'Access-Control-Allow_origin': "*",
+                'Content-type': 'application/json'
+            }
+        }).then(function(res){
+            self.setState({
+                isLoaded: true,
+                items : res.data,
+                searchResult: res.data                
+            });
+        }).catch(function (error){
+            self.setState({
+                error: error,
+                isLoaded: true
+            });
+        });
     }
 
     emailChange(event){
@@ -93,20 +97,6 @@ export default class Record extends Component {
     render() {
         const {error, isLoaded, searchResult } = this.state;
         var page = this.pageRender();
-        // if (isLoaded){
-        //     page = <p>Please wait...</p>
-        // }else{
-        //     if (error){
-        //         page = <p>There is an error on this page. Please try again later</p>
-        //     }else{
-        //         if (searchResult.length > 0){
-        //             page = this.pageRender();
-        //         }else{
-        //             page = <p>There is no result</p>
-        //         }
-        //     }
-        // }
-        
         return (
             <React.Fragment>
                 <h1>Record Page</h1>

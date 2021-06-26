@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import FormInput from './widgets/formInput';
 import Graph from './widgets/graph';
+
 import axios from 'axios';
 import XLSX from 'xlsx';
-// import  {ExportManager, ExportConfig} from 'fusionexport-node-client';
-// import {Canvas2Image} from 'Canvas2Image';
+import html2canvas from 'html2canvas';
 
 
 export default class Mail extends Component {
@@ -20,7 +20,7 @@ export default class Mail extends Component {
     state = {
         Subject: "Yes",
         Name: "Yan",
-        Email: "tonychau923@gmail.com",
+        Email: "tony_chau23@hotmail.com",
         Message: "This is some message I have no idea what to write about",
         excelJson: null,
         xHeadingKey: "0",
@@ -34,40 +34,36 @@ export default class Mail extends Component {
     submitHandler(event){
         var self = this;
         var sub = document.getElementById('sub');
+        const graph = document.getElementById('Graph');
         sub.disabled = !sub.disabled;
 
-        const saveToArchive = async (chartId) =>{
-            const chartInstance = window.Apex._chartInstances.find(chart => chart.id === chartId);
-            const base64 = await chartInstance.chart.dataURI();
-            return base64;
-        }
-        console.log(saveToArchive);
         // API stuff
         event.preventDefault();
-        // var dataURL = chart.dataURI().then((uri) => {
-        //     console.log(uri);
-        // });
-
-        // axios({
-        //     method: 'POST',
-        //     url: 'https://localhost:44337/api/Email/SendMail',
-        //     data:{
-        //         Name: self.state.Name,
-        //         Email: self.state.Email,
-        //         Subject: self.state.Subject,
-        //         Message: self.state.Message
-        //     },
-        //     header: {
-        //         'Access-Control-Allow_origin': "*",
-        //         'Content-type': 'application/json'
-        //     }
-        // }).then(function(resp){
-        //     alert("Email Sent");
-        //     sub.disabled = !sub.disabled;
-        //     window.location.reload();
-        // }).catch(function(err){
-        //     alert(err);
-        // });
+        html2canvas(graph).then(function (canvas){
+            const base64 = JSON.stringify(canvas.toDataURL());
+            console.log(base64);
+            axios({
+                method: 'POST',
+                url: 'https://localhost:44337/api/Email/SendMail',
+                data:{
+                    Name: self.state.Name,
+                    Email: self.state.Email,
+                    Subject: self.state.Subject,
+                    Message: self.state.Message,
+                    Image: base64
+                },
+                header: {
+                    'Access-Control-Allow_origin': "*",
+                    'Content-type': 'application/json'
+                }
+            }).then(function(resp){
+                alert("Email Sent");
+                sub.disabled = !sub.disabled;
+                window.location.reload();
+            }).catch(function(err){
+                alert(err);
+            });
+        });
     }
 
     updateChange(event, state) {
@@ -219,9 +215,7 @@ export default class Mail extends Component {
                                 <div>
                                     {/* Graph Part image rendering */}
                                     { this.state.xHeadingKey !== "0" && this.state.yHeadingKey !== "0" ? 
-                                        <div className="Graph">
-                                            <Graph excelJson={this.state.excelJson} xHeadingKey={this.state.xHeadingKey} yHeadingKey={this.state.yHeadingKey} headings={this.state.headings} title={this.state.Title} type={this.state.Graphtype} height="500px" width="100%"/>
-                                        </div>
+                                        <Graph excelJson={this.state.excelJson} xHeadingKey={this.state.xHeadingKey} yHeadingKey={this.state.yHeadingKey} headings={this.state.headings} title={this.state.Title} type={this.state.Graphtype} height="500px" width="100%"/>
                                         : 
                                         <p>Please select both x and y headings to generate a graph</p>}
                                 </div>
@@ -235,10 +229,6 @@ export default class Mail extends Component {
                         <button className="btn btn-warning" onClick={this.resetData}>Reset</button>
                         <button type="submit" className="btn btn-primary" id="sub">Submit</button>
                     </section>
-
-
-
-
                 </form>
             </React.Fragment>
         )
