@@ -52,6 +52,18 @@ export default class Record extends Component {
 
     handleIconClick(event){
         console.log(event);
+        const imageLink = "https://i2-prod.mirror.co.uk/incoming/article6499154.ece/ALTERNATES/s615b/Football-mascots.jpg";
+        const modal = document.getElementById("imagePreview");
+        var img = document.getElementById("image");
+        modal.style.display = "block";
+        img.src = imageLink;
+    }
+
+    handleClose(event){
+        const modal = document.getElementById("imagePreview");
+        if(!event.target.matches("#image")){
+            modal.style.display = "none";
+        }
     }
 
     pageRender(){
@@ -87,12 +99,15 @@ export default class Record extends Component {
                     </table>
                 </div>
                 }
+                <button className="btn btn-primary" onClick={this.handleIconClick}>Image Test</button>
+                <div id="imagePreview" class="modal" onClick={(e) => this.handleClose(e)}>
+                    <span class="close" onClick={(e) => this.handleClose(e)}>&times;</span>
+                    <img class="modalContent" id="image"></img>
+                </div>
 
             </React.Fragment>
         )
     }
-
-
 
     render() {
         const {error, isLoaded, searchResult } = this.state;
