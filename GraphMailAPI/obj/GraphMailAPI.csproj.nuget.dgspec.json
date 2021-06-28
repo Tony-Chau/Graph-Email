@@ -63,6 +63,10 @@
               "target": "Package",
               "version": "[5.6.3, )"
             },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
             "System.Net.Http": {
               "target": "Package",
               "version": "[4.3.4, )"

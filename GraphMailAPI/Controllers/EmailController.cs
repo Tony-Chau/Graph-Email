@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,8 +8,10 @@ using MySql.Data.MySqlClient;
 using System.Net.Mail;
 using NET = System.Net;
 using Microsoft.AspNetCore.Cors;
-using System.IO;
 using System.Net.Mime;
+using System.IO;
+using System;
+using System.Drawing;
 
 
 
@@ -53,9 +54,11 @@ namespace GraphMailAPI.Controllers
                         name= rdr.GetString(1),
                         email = rdr.GetString(2),
                         subject = rdr.GetString(3),
-                        message = rdr.GetString(4)
+                        message = rdr.GetString(4),
+                        image = rdr.GetString(5)
                     });
                 }
+
                 con.Close();
                 return emailList;
             }
@@ -91,8 +94,7 @@ namespace GraphMailAPI.Controllers
                     name = rdr.GetString(1),
                     email = rdr.GetString(2),
                     subject = rdr.GetString(3),
-                    message = rdr.GetString(4),
-                    image = rdr.GetString(5)
+                    message = rdr.GetString(4)
                 };
             }
             return val;
@@ -108,7 +110,7 @@ namespace GraphMailAPI.Controllers
         [EnableCors("MyPolicy")]
         public void Post([FromBody] Email request)
         {
-            using var con = new MySqlConnection(this.server);
+            using var con = new MySqlConnection(server);
             try
             {
                 sendEmail(request);
@@ -141,9 +143,7 @@ namespace GraphMailAPI.Controllers
                     UseDefaultCredentials = false,
                     Credentials = new NET.NetworkCredential(hostEmail, hostPassword)
                 };
-                Attachment img = new Attachment(base64ToImageStream(request.image), MediaTypeNames.Application.Octet);
-                mailMessage.Attachments.Add(img);
-
+                mailMessage.Attachments.Add(imageAttachment(request.image));
                 smtpClient.Send(mailMessage);
             }catch(Exception ex)
             {
@@ -159,24 +159,30 @@ namespace GraphMailAPI.Controllers
         private void createEntry(MySqlConnection con, Email request)
         {
             con.Open();
-            string sql = "INSERT INTO mail(name, email, subject, message, image) VALUES(@Name, @Email, @Subject, @Message, @Image)";
+            string sql = "INSERT INTO mail(name, email, subject, message, image) VALUES (@Name, @Email, @Subject, @Message, @Image)";
             using var cmd = new MySqlCommand(sql, con);
 
             cmd.Parameters.AddWithValue("@Name", request.name);
             cmd.Parameters.AddWithValue("@Email", request.email);
             cmd.Parameters.AddWithValue("@Subject", request.subject);
             cmd.Parameters.AddWithValue("@Message", request.message);
-            MySqlParameter par = new MySqlParameter("@Image", MySqlDbType.Blob);
-            par.Value = request.image;
-
+            cmd.Parameters.AddWithValue("@Image", ConvertToMemory(request.image).ToArray());
+            //MySqlParameter par = new MySqlParameter("@Image",MySqlDbType.Blob);
+            //par.Value = ConvertToMemory(request.image).ToArray();
             cmd.ExecuteNonQuery();
             con.Close();
         }
 
-        private Stream base64ToImageStream(string base64)
+        private static Attachment imageAttachment(string base64)
         {
-            byte[] imageBytes = Convert.FromBase64String(base64);
-            return new MemoryStream(imageBytes, 0, imageBytes.Length);
+            MemoryStream ms = ConvertToMemory(base64);
+            return new Attachment(ms, "graph.png");
+        }
+
+        private static MemoryStream ConvertToMemory(string base64)
+        {
+            byte[] img = Convert.FromBase64String(base64);
+            return new MemoryStream(img, 0, img.Length);
         }
     }
 }

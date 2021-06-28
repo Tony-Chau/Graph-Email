@@ -45,3 +45,6 @@ C:\Users\tony_\OneDrive\Desktop\Github stuff\Graph-Email\GraphMailAPI\bin\Debug\
 C:\Users\tony_\OneDrive\Desktop\Github stuff\Graph-Email\GraphMailAPI\bin\Debug\net5.0\System.Web.Http.Cors.dll
 C:\Users\tony_\OneDrive\Desktop\Github stuff\Graph-Email\GraphMailAPI\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Users\tony_\OneDrive\Desktop\Github stuff\Graph-Email\GraphMailAPI\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Users\tony_\OneDrive\Desktop\Github stuff\Graph-Email\GraphMailAPI\bin\Debug\net5.0\System.Drawing.Common.dll
+C:\Users\tony_\OneDrive\Desktop\Github stuff\Graph-Email\GraphMailAPI\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\tony_\OneDrive\Desktop\Github stuff\Graph-Email\GraphMailAPI\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll

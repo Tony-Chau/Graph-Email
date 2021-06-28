@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import $ from 'jquery';
 
 export default class Record extends Component {
     constructor(){
@@ -51,18 +52,15 @@ export default class Record extends Component {
     }
 
     handleIconClick(event){
-        console.log(event);
-        const imageLink = "https://i2-prod.mirror.co.uk/incoming/article6499154.ece/ALTERNATES/s615b/Football-mascots.jpg";
-        const modal = document.getElementById("imagePreview");
-        var img = document.getElementById("image");
-        modal.style.display = "block";
-        img.src = imageLink;
+        const image = this.state.searchResult.find(item => item.id === parseInt(event.target.dataset.id));
+        console.log(image);
+        $('#image').attr("src", `data:image/png;base64,${image.image}`);
+        $('#imagePreview').css("display", "block");
     }
 
     handleClose(event){
-        const modal = document.getElementById("imagePreview");
         if(!event.target.matches("#image")){
-            modal.style.display = "none";
+            $('#imagePreview').css("display", "none");
         }
     }
 
@@ -92,7 +90,7 @@ export default class Record extends Component {
                                     <th>{item.email}</th>
                                     <th>{item.subject}</th>
                                     <th>{item.message}</th>
-                                    <th className="image-icon"><i data-id={item.id} onClick={this.handleIconClick} className="material-icons">&#xe3b6;</i></th>
+                                    <th className="image-icon"><i data-id={item.id} onClick={(e) => this.handleIconClick(e)} className="material-icons">&#xe3b6;</i></th>
                                 </tr>
                             )}
                         </tbody>
@@ -100,9 +98,9 @@ export default class Record extends Component {
                 </div>
                 }
                 <button className="btn btn-primary" onClick={this.handleIconClick}>Image Test</button>
-                <div id="imagePreview" class="modal" onClick={(e) => this.handleClose(e)}>
-                    <span class="close" onClick={(e) => this.handleClose(e)}>&times;</span>
-                    <img class="modalContent" id="image"></img>
+                <div id="imagePreview" class="modal" onClick={this.handleClose}>
+                    <span class="close" onClick={this.handleClose}>&times;</span>
+                    <img class="modalContent" id="image"/>
                 </div>
 
             </React.Fragment>
@@ -110,14 +108,20 @@ export default class Record extends Component {
     }
 
     render() {
-        const {error, isLoaded, searchResult } = this.state;
+        var {error, isLoaded, searchResult } = this.state;
+        error = false;
         var page = this.pageRender();
         return (
             <React.Fragment>
                 <h1>Record Page</h1>
-                <div className="container">
-                    {page}
-                </div>
+                {error ? 
+                    <p>An error has occured, please try again at a different time or just refresh the page.</p>
+                    :
+                    <div className="container">
+                        {page}
+                    </div>
+                }
+
             </React.Fragment>
         )
     }

@@ -37,7 +37,8 @@ const HomePage = () => {
         {id:2, name: "ApexCharts", link: "https://apexcharts.com/"},
         {id:3, name: "html2canvas", link: "https://html2canvas.hertzen.com/"},
         {id:4, name: "Microsoft Web APIs (.NET core 5.0)", link: "https://dotnet.microsoft.com/apps/aspnet/apis"},
-        {id:5, name: "Bootstrap", link: "https://getbootstrap.com/"}
+        {id:5, name: "Bootstrap", link: "https://getbootstrap.com/"},
+        {id:6, name: "Jquery", link: "https://jquery.com/"},
     ]
 return(
     <React.Fragment>

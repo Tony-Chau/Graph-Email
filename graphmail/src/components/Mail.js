@@ -5,6 +5,7 @@ import Graph from './widgets/graph';
 import axios from 'axios';
 import XLSX from 'xlsx';
 import html2canvas from 'html2canvas';
+import $ from 'jquery';
 
 
 export default class Mail extends Component {
@@ -20,7 +21,7 @@ export default class Mail extends Component {
     state = {
         Subject: "Yes",
         Name: "Yan",
-        Email: "tony_chau23@hotmail.com",
+        Email: "tonychau923@gmail.com",
         Message: "This is some message I have no idea what to write about",
         excelJson: null,
         xHeadingKey: "0",
@@ -33,37 +34,40 @@ export default class Mail extends Component {
 
     submitHandler(event){
         var self = this;
-        var sub = document.getElementById('sub');
-        const graph = document.getElementById('Graph');
-        sub.disabled = !sub.disabled;
-
+        var sub = $('#sub');
+        // sub.attr('disabled', true);
         // API stuff
         event.preventDefault();
-        html2canvas(graph).then(function (canvas){
-            const base64 = JSON.stringify(canvas.toDataURL());
-            console.log(base64);
-            axios({
-                method: 'POST',
-                url: 'https://localhost:44337/api/Email/SendMail',
-                data:{
-                    Name: self.state.Name,
-                    Email: self.state.Email,
-                    Subject: self.state.Subject,
-                    Message: self.state.Message,
-                    Image: base64
-                },
-                header: {
-                    'Access-Control-Allow_origin': "*",
-                    'Content-type': 'application/json'
-                }
-            }).then(function(resp){
-                alert("Email Sent");
-                sub.disabled = !sub.disabled;
-                window.location.reload();
-            }).catch(function(err){
-                alert(err);
-            });
-        });
+        var graph = $("#Graph")[0];
+        html2canvas(graph, {
+                            letterRendering: 1,
+                            allowTaint: true,
+                            useCors: true,
+                            x: graph.offsetLeft, 
+                            y: window.pageYOffset + graph.offsetTop
+                        }).then(function(canvas){
+                                var base64 = canvas.toDataURL('image/png').replace("data:image/png;base64,", "");
+                                axios({
+                                    method: 'POST',
+                                    url: 'https://localhost:44337/api/Email/SendMail',
+                                    data:{
+                                        Name: self.state.Name,
+                                        Email: self.state.Email,
+                                        Subject: self.state.Subject,
+                                        Message: self.state.Message,
+                                        Image: base64
+                                    },
+                                    header: {
+                                        'Access-Control-Allow_origin': "*"
+                                    }
+                                }).then(function(resp){
+                                    alert("Email Sent");
+                                    // window.location.reload();
+                                }).catch(function(err){
+                                    alert(err);
+                                    sub.attr('disabled', false);
+                                });
+                            });
     }
 
     updateChange(event, state) {
@@ -94,7 +98,7 @@ export default class Mail extends Component {
                 this.setState({Graphtype: val});
                 break;
             default: 
-                console.log("nothing was updated");
+                console.log("Nothing was updated");
                 break;
         }       
     }
@@ -195,7 +199,6 @@ export default class Mail extends Component {
                             <label htmlFor="file">Upload Graph</label>
                             <input className="form-control" type="file" id="file" name="excelFile" onChange={this.handleUpload} accept=".xlsx, .xls" value={this.state.excelFilePath}/>
                             <span>This only works for .xlsx or .xls file</span>
-                            {/* http://www.principlesofeconometrics.com/excel.htm */}
                         </div>
                         <br/><br/>
                         {this.state.excelJson == null ? "" : 
@@ -223,7 +226,6 @@ export default class Mail extends Component {
                         }
 
                     </section>
-                    
                     <br/>
                     <section className="d-flex justify-content-between mail-button-set">
                         <button className="btn btn-warning" onClick={this.resetData}>Reset</button>
