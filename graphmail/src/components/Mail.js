@@ -231,7 +231,7 @@ export default class Mail extends Component {
                         type="submit" 
                         className="btn btn-primary" 
                         id="sub" 
-                        disabled ={(this.state.xHeadingKey === "0" && this.state.yHeadingKey === "0")}>Submit</button>
+                        disabled={!(this.state.xHeadingKey !== "0" && this.state.yHeadingKey !== "0")}>Submit</button>
                     </section>
                 </form>
             </React.Fragment>

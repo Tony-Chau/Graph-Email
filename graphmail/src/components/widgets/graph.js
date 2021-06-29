@@ -29,8 +29,8 @@ export default class Graph extends Component {
         var x_data = [];
         var y_data = [];
         this.props.excelJson.forEach((item) =>{ 
-            x_data.push(eval(`item.${xname}`));
-            y_data.push(eval(`item.${yname}`));
+            x_data.push(item[xname]);
+            y_data.push(item[yname]);
         });
 
         var data =  [
@@ -78,8 +78,8 @@ export default class Graph extends Component {
             var x_data = [];
             var y_data = [];
             this.props.excelJson.forEach((item) =>{ 
-                x_data.push(eval(`item.${xname}`));
-                y_data.push(eval(`item.${yname}`));
+                x_data.push(item[xname]);
+                y_data.push(item[yname]);
             });
             var data =  [
                 {

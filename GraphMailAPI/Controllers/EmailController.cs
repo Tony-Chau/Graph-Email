@@ -12,6 +12,7 @@ using System.Net.Mime;
 using System.IO;
 using System;
 using System.Drawing;
+using System.Text;
 
 
 
@@ -24,7 +25,7 @@ namespace GraphMailAPI.Controllers
     public class EmailController : ControllerBase
     {
         private string server = @"server=localhost;userid=root;password=;database=mail";
-        private string hostEmail = "bestforest4@gmail.com";
+        private string hostEmail = "<Email>";
         private string hostPassword = "<Password>";
         private string smtpHost = "smtp.gmail.com";
         private int port = 587;
@@ -48,15 +49,17 @@ namespace GraphMailAPI.Controllers
                 using MySqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
-                    emailList.Add(new Email
+                    Email email = new Email()
                     {
-                        id = rdr.GetInt64(0),
-                        name= rdr.GetString(1),
-                        email = rdr.GetString(2),
-                        subject = rdr.GetString(3),
-                        message = rdr.GetString(4),
-                        image = rdr.GetString(5)
-                    });
+                        id = rdr.GetInt64("id"),
+                        name = rdr.GetString("name"),
+                        email = rdr.GetString("email"),
+                        subject = rdr.GetString("subject"),
+                        message = rdr.GetString("message")
+                    };
+                    byte[] img = (byte[])rdr.GetValue(5);
+                    email.image = Convert.ToBase64String(img);
+                    emailList.Add(email);
                 }
 
                 con.Close();
@@ -96,6 +99,7 @@ namespace GraphMailAPI.Controllers
                     subject = rdr.GetString(3),
                     message = rdr.GetString(4)
                 };
+
             }
             return val;
         }
@@ -167,18 +171,26 @@ namespace GraphMailAPI.Controllers
             cmd.Parameters.AddWithValue("@Subject", request.subject);
             cmd.Parameters.AddWithValue("@Message", request.message);
             cmd.Parameters.AddWithValue("@Image", ConvertToMemory(request.image).ToArray());
-            //MySqlParameter par = new MySqlParameter("@Image",MySqlDbType.Blob);
-            //par.Value = ConvertToMemory(request.image).ToArray();
             cmd.ExecuteNonQuery();
             con.Close();
         }
 
+        /// <summary>
+        /// Returns an attachment variable with an image
+        /// </summary>
+        /// <param name="base64">the base64 image that will be attached to the email</param>
+        /// <returns>The attachment value</returns>
         private static Attachment imageAttachment(string base64)
         {
             MemoryStream ms = ConvertToMemory(base64);
             return new Attachment(ms, "graph.png");
         }
 
+        /// <summary>
+        /// Converts the base64 image into a memorystream
+        /// </summary>
+        /// <param name="base64">The base64 image</param>
+        /// <returns>The memory stream created from the base64 image</returns>
         private static MemoryStream ConvertToMemory(string base64)
         {
             byte[] img = Convert.FromBase64String(base64);
