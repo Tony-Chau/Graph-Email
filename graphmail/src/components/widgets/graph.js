@@ -65,6 +65,7 @@ export default class Graph extends Component {
     }
 
     componentDidUpdate(prevprops, prevstate){
+        var options;
         if (prevprops.xHeadingKey !== this.props.xHeadingKey || prevprops.yHeadingKey !== this.props.yHeadingKey){
             var xname, yname;
             this.props.headings.forEach((item) =>{
@@ -83,11 +84,11 @@ export default class Graph extends Component {
             });
             var data =  [
                 {
-                    name: xname,
-                    data: x_data
+                    name: yname,
+                    data: y_data
                 }
             ];
-            var options = {
+            options = {
                 title: {
                     text: this.props.title,
                     align: 'center',
@@ -98,6 +99,9 @@ export default class Graph extends Component {
                       fontFamily:  'Arial',
                       color:  '#000'
                     },
+                },
+                dataLabels: {
+                    enabled: false
                 },
                 chart:{
                     type: prevstate.options.chart.type, 
@@ -106,7 +110,8 @@ export default class Graph extends Component {
                     }
                 },
                 xaxis:{
-                    categories: y_data
+                    labels: xname,
+                    categories: x_data
                 }
             };
             this.setState({options : options, series: data});
@@ -114,8 +119,7 @@ export default class Graph extends Component {
 
 
         if (this.props.type !== prevprops.type){
-            console.log(`New - ${this.props.type}`, `Old - ${prevprops.type}`);
-            var options = {
+            options = {
                 title: {
                     text: this.props.title,
                     align: 'center',
@@ -126,6 +130,9 @@ export default class Graph extends Component {
                       fontFamily:  'Arial',
                       color:  '#000'
                     },
+                },
+                dataLabels: {
+                    enabled: false
                 },
                 chart:{
                     type: this.props.type, 
@@ -134,6 +141,7 @@ export default class Graph extends Component {
                     }
                 },
                 xaxis:{
+                    labels: xname,
                     categories: prevstate.options.xaxis.categories
                 }
             }
@@ -141,7 +149,7 @@ export default class Graph extends Component {
         }
 
         if (this.props.title !== prevprops.title){
-            var options = {
+            options = {
                 title: {
                     text: this.props.title,
                     align: 'center',
@@ -153,18 +161,20 @@ export default class Graph extends Component {
                       color:  '#000'
                     },
                 },
+                dataLabels: {
+                    enabled: false
+                },
                 chart:{
                     type: prevstate.options.chart.type
                 },
                 xaxis:{
+                    labels: xname,
                     categories: prevstate.options.xaxis.categories
                 }
             }
             this.setState({options: options});
         }
     }
-
-
 
     render(){
         return (

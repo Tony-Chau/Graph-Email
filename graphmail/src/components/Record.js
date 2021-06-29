@@ -66,7 +66,7 @@ export default class Record extends Component {
             <React.Fragment>
                 <div className="form-group row">
                     <label className="col-sm-4 col-md-4" htmlFor="email" >Search your message</label>
-                    <input className="form-control col-sm-8 col-md-8" id="email" placeholder="Enter email" id="email" onChange={this.emailChange}/>
+                    <input className="form-control col-sm-8 col-md-8" id="email" placeholder="Enter email" onChange={this.emailChange}/>
                 </div>
                 {this.state.searchResult.length <= 0 ? <p>The result is empty</p> :     
                 <div>

@@ -34,7 +34,8 @@ export default class Mail extends Component {
     submitHandler(event){
         var self = this;
         var sub = $('#sub');
-        // sub.attr('disabled', true);
+        sub.attr('disabled', true);
+        
         // API stuff
         event.preventDefault();
         var graph = $("#Graph")[0];
@@ -61,7 +62,7 @@ export default class Mail extends Component {
                                     }
                                 }).then(function(resp){
                                     alert("Email Sent");
-                                    // window.location.reload();
+                                    window.location.reload();
                                 }).catch(function(err){
                                     alert(err);
                                     sub.attr('disabled', false);
@@ -158,10 +159,12 @@ export default class Mail extends Component {
                 };
                 keyIndex += 1;
             }
+            self.setState({headings: [],                          
+                          xHeadingKey: "0",
+                          yHeadingKey: "0"});
+                          
             self.setState({excelJson: json,
-                            headings: headings,
-                            xHeadingKey: "0",
-                            yHeadingKey: "0"
+                            headings: headings
                         });
 
         };
@@ -226,7 +229,7 @@ export default class Mail extends Component {
                     </section>
                     <br/>
                     <section className="d-flex justify-content-between mail-button-set">
-                        <button className="btn btn-warning" onClick={this.resetData}>Reset</button>
+                        <button type="button" className="btn btn-warning" onClick={this.resetData}>Reset</button>
                         <button 
                         type="submit" 
                         className="btn btn-primary" 
