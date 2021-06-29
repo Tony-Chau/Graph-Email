@@ -30,7 +30,6 @@ export default class Home extends Component {
 
 
 const HomePage = () => {
-    var id = 0;
     const items = [
         {id:0, name: "React", link: "https://reactjs.org/"},
         {id:1, name: "Axios", link: "https://axios-http.com/docs/intro"},
@@ -48,7 +47,7 @@ return(
             <p>Here are the following libraries/framework that were used to make this project possible</p>
             <ul>
                 {items.map((item) =>
-                    <li key={item.id}><a href={item.link} target="_blank">{item.name}</a></li>
+                    <li key={item.id}><a href={item.link} target="_blank" rel="noreferrer">{item.name}</a></li>
                 )}
             </ul>
         </div>

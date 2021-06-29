@@ -1,5 +1,5 @@
 # Graph-Email
 
-Just testing this with Email, angular, and plot.ly
+Just testing this with Email, React, and ApexChart
 
-The Finnancial Sample is from Microsoft Excel Example.
+The chart example was from ApexCharts

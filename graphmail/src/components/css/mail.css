@@ -16,6 +16,11 @@
   color: white;
 }
 
+.btn:hover,
+.btn:focus {
+  color: white;
+}
+
 .graph {
   height: inherit;
   padding: 10px;

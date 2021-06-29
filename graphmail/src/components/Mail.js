@@ -20,16 +20,15 @@ export default class Mail extends Component {
 
     state = {
         Subject: "Yes",
-        Name: "Yan",
+        Name: "Bubbleman",
         Email: "tonychau923@gmail.com",
-        Message: "This is some message I have no idea what to write about",
+        Message: "Stop selecting me as the first boss you face in Megaman 2",
         excelJson: null,
         xHeadingKey: "0",
         yHeadingKey: "0",
         headings: [],
         Title: "",
-        image: null,
-        Graphtype: 'bar'
+        Graphtype: 'line'
     };
 
     submitHandler(event){
@@ -115,8 +114,7 @@ export default class Mail extends Component {
             xHeadingKey: "0",
             yHeadingKey: "0",
             Title: "",
-            image: null,
-            Graphtype: 'bar'
+            Graphtype: 'line'
         });
     }
 
@@ -125,7 +123,7 @@ export default class Mail extends Component {
             <div className="col-sm-6 col-md-6">
                 <label htmlFor={type}>{type.toUpperCase()}-Heading</label>
                     <select className="form-select" id={type + "-heading"} defaultValue="0" onChange={(e) =>{this.updateChange(e, `${type}-Head`)}}>
-                        <option defaultValue value={0} key="0" disabled>{type.toUpperCase()}-Heading</option>
+                        <option defaultValue value="0" key="0" disabled>{type.toUpperCase()}-Heading</option>
                         {this.state.headings.map((item) =>
                             <option key={item.id} value={item.id}>{item.name}</option>
                         )}
@@ -208,8 +206,8 @@ export default class Mail extends Component {
                                     <div className="form-group">
                                         <label htmlFor="Gtype">Graph Type</label>
                                         <select className="form-control" id="Gtype" value={this.state.Graphtype} onChange={(e) =>{ this.updateChange(e, "Graphtype")}}>
-                                            <option defaultValue value="bar">Bar</option>
-                                            <option value="line">Line</option>
+                                            <option defaultValue value="line">Line</option>
+                                            <option value="bar">Bar</option>
                                         </select>
                                     </div>
                                     {this.renderHeading("x")}
@@ -229,7 +227,11 @@ export default class Mail extends Component {
                     <br/>
                     <section className="d-flex justify-content-between mail-button-set">
                         <button className="btn btn-warning" onClick={this.resetData}>Reset</button>
-                        <button type="submit" className="btn btn-primary" id="sub">Submit</button>
+                        <button 
+                        type="submit" 
+                        className="btn btn-primary" 
+                        id="sub" 
+                        disabled ={(this.state.xHeadingKey === "0" && this.state.yHeadingKey === "0")}>Submit</button>
                     </section>
                 </form>
             </React.Fragment>
