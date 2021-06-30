@@ -13,7 +13,7 @@ export default class FormInput extends Component {
             <input 
             type={this.props.type} 
             className="form-control" 
-            id={this.props.labelFor} 
+            id={this.props.label} 
             value={this.props.value} 
             name={this.props.name} 
             pattern={this.props.pattern} 
@@ -27,7 +27,7 @@ export default class FormInput extends Component {
         return (
             <textarea
             className="form-control" 
-            id={this.props.labelFor} 
+            id={this.props.label} 
             value={this.props.value} 
             name={this.props.name} 
             pattern={this.props.pattern} 
