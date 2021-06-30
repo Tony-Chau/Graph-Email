@@ -7,10 +7,10 @@ export default class Nav extends Component {
             <nav className="navbar navbar-expand lg navbar-light bg-light">
                 <div className="container">
                     <ul className="navbar-nav d-flex justify-content-between w-100">
-                        <li className="w-75">
+                        <li>
                             <Link to="/"><h5>Graph Mail</h5></Link>
                         </li>
-                        <li className="w-25">
+                        <li>
                             <div className="w-100">
                                 <ul className="d-flex justify-content-between w-100">
                                     <li>

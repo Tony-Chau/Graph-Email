@@ -2,6 +2,10 @@ nav ul {
   list-style-type: none;
 }
 
+nav ul li{
+  margin: 0 20px;
+}
+
 nav ul li a {
   text-decoration: none;
   color: #000;
@@ -11,3 +15,5 @@ nav ul li a:hover,
 nav ul li a:focus {
   color: grey;
 }
+
+

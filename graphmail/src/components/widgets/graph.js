@@ -35,8 +35,11 @@ export default class Graph extends Component {
 
         var data =  [
             {
-                name: xname,
-                data: x_data
+                name: yname,
+                data: y_data,
+                title:{
+                    text: yname
+                }
             }
         ];
         var options = {
@@ -51,15 +54,18 @@ export default class Graph extends Component {
                   color:  '#263238'
                 },
             },
-                chart:{
-                    type: this.props.type, 
-                    toolbar:{
-                        show: false
-                    }
-                },
-                xaxis:{
-                    categories: y_data
+            chart:{
+                type: this.props.type, 
+                toolbar:{
+                    show: false
                 }
+            },
+            xaxis:{
+                categories: x_data,
+                title:{
+                    text: xname
+                }
+            }
         }
         this.setState({series: data, options: options});
     }
@@ -76,6 +82,7 @@ export default class Graph extends Component {
                     yname = item.name;
                 }
             });
+
             var x_data = [];
             var y_data = [];
             this.props.excelJson.forEach((item) =>{ 
@@ -85,9 +92,13 @@ export default class Graph extends Component {
             var data =  [
                 {
                     name: yname,
-                    data: y_data
+                    data: y_data,
+                    title:{
+                        text: yname
+                    }
                 }
             ];
+            console.log(data);
             options = {
                 title: {
                     text: this.props.title,
@@ -100,9 +111,6 @@ export default class Graph extends Component {
                       color:  '#000'
                     },
                 },
-                dataLabels: {
-                    enabled: false
-                },
                 chart:{
                     type: prevstate.options.chart.type, 
                     toolbar:{
@@ -111,12 +119,14 @@ export default class Graph extends Component {
                 },
                 xaxis:{
                     labels: xname,
-                    categories: x_data
+                    categories: x_data,
+                    title:{
+                        text: xname
+                    }
                 }
             };
             this.setState({options : options, series: data});
         }
-
 
         if (this.props.type !== prevprops.type){
             options = {
@@ -131,9 +141,6 @@ export default class Graph extends Component {
                       color:  '#000'
                     },
                 },
-                dataLabels: {
-                    enabled: false
-                },
                 chart:{
                     type: this.props.type, 
                     toolbar:{
@@ -142,7 +149,10 @@ export default class Graph extends Component {
                 },
                 xaxis:{
                     labels: xname,
-                    categories: prevstate.options.xaxis.categories
+                    categories: prevstate.options.xaxis.categories,
+                    title:{
+                        text: prevstate.options.xaxis.title.text
+                    }
                 }
             }
             this.setState({type: this.props.type, options : options});
@@ -169,7 +179,10 @@ export default class Graph extends Component {
                 },
                 xaxis:{
                     labels: xname,
-                    categories: prevstate.options.xaxis.categories
+                    categories: prevstate.options.xaxis.categories,
+                    title:{
+                        text: prevstate.options.xaxis.title.text
+                    }
                 }
             }
             this.setState({options: options});

@@ -12,7 +12,8 @@ export default class Record extends Component {
     state = {
         items : [],
         error: false,
-        searchResult: []
+        searchResult: [],
+        isLoaded: false
     };
 
     componentDidMount(){
@@ -27,11 +28,13 @@ export default class Record extends Component {
         }).then(function(res){
             self.setState({
                 items : res.data,
-                searchResult: res.data                
+                searchResult: res.data,
+                isLoaded: true                
             });
         }).catch(function (error){
             self.setState({
-                error: error
+                error: error,
+                isLoaded: true
             });
         });
     }
@@ -104,18 +107,23 @@ export default class Record extends Component {
     }
 
     render() {
-        var {error} = this.state;
+        var {error, isLoaded} = this.state;
         var page = this.pageRender();
         return (
             <React.Fragment>
                 <h1>Record Page</h1>
-                {error ? 
-                    <p>An error has occured, please try again at a different time or just refresh the page.</p>
-                    :
-                    <div className="container">
-                        {page}
-                    </div>
-                }
+                {isLoaded ? 
+                    <React.Fragment>
+                        {error ? 
+                            <p>An error has occured, please try again at a different time or just refresh the page.</p>
+                            :
+                            <div className="container">
+                                {page}
+                            </div>
+                        }
+                    </React.Fragment>
+                 : <p>Please wait...</p>}
+
 
             </React.Fragment>
         )
