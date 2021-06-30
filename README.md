@@ -1,5 +1,5 @@
 # Graph-Email
 
-Just testing this with Email, React, and ApexChart
+Graph mail is a project I developed for fun and to learn ReactJS library. The project also uses .NET API framework to develop the controller to allow users to send emails with generated graph rendered by ApexCharts.
 
-The chart example was from ApexCharts
+A demo video showcasing how the app works will be created soon.
