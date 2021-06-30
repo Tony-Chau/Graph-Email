@@ -19,10 +19,10 @@ export default class Mail extends Component {
     }
 
     state = {
-        Subject: "Yes",
-        Name: "Bubbleman",
-        Email: "tonychau923@gmail.com",
-        Message: "Stop selecting me as the first boss you face in Megaman 2",
+        Subject: "",
+        Name: "",
+        Email: "",
+        Message: "",
         excelJson: null,
         xHeadingKey: "0",
         yHeadingKey: "0",

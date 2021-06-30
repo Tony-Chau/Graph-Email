@@ -17,7 +17,7 @@ export default class FormInput extends Component {
             value={this.props.value} 
             name={this.props.name} 
             pattern={this.props.pattern} 
-            {...this.props.required !== 'optional' ? 'required' : ''}
+            required={this.props.required === "required"}
             onChange={(e) => {this.props.change(e, this.props.name)}}
             placeholder={this.props.placeholder}/>
         );
@@ -31,7 +31,7 @@ export default class FormInput extends Component {
             value={this.props.value} 
             name={this.props.name} 
             pattern={this.props.pattern} 
-            {...this.props.required !== 'optional' ? 'required' : ''}
+            required={this.props.required === "required"}
             onChange={(e) => {this.props.change(e, this.props.name)}}
             placeholder={this.props.placeholder}
             cols={this.props.cols}
