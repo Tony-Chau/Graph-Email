@@ -120,10 +120,11 @@ export default class Mail extends Component {
     }
 
     renderHeading(type){
+        var typevalue = type === 'x' ? this.state.xHeadingKey : this.state.yHeadingKey;
         return (
             <div className="col-sm-6 col-md-6">
                 <label htmlFor={type}>{type.toUpperCase()}-Heading</label>
-                    <select className="form-select" id={type + "-heading"} defaultValue="0" onChange={(e) =>{this.updateChange(e, `${type}-Head`)}}>
+                    <select className="form-select" id={type + "-heading"} defaultValue="0" onChange={(e) =>{this.updateChange(e, `${type}-Head`)}} value={typevalue}>
                         <option defaultValue value="0" key="0">{type.toUpperCase()}-Heading</option>
                         {this.state.headings.map((item) =>
                             <option key={item.id} value={item.id}>{item.name}</option>

@@ -25,8 +25,8 @@ namespace GraphMailAPI.Controllers
     public class EmailController : ControllerBase
     {
         private string server = @"server=localhost;userid=root;password=;database=mail";
-        private string hostEmail = "<gmail>";
-        private string hostPassword = "<password>";
+        private string hostEmail = "<Gmail>";
+        private string hostPassword = "<Password>";
         private string smtpHost = "smtp.gmail.com";
         private int port = 587;
 
@@ -137,7 +137,7 @@ namespace GraphMailAPI.Controllers
             try
             {
                 MailMessage mailMessage = new MailMessage(hostEmail, request.email, request.subject, request.message);
-                mailMessage.From = new MailAddress(hostEmail, "Test Mail");
+                mailMessage.From = new MailAddress(hostEmail, "Graph Mail");
                 SmtpClient smtpClient = new SmtpClient()
                 {
                     Host = smtpHost,
